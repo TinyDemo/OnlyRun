@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Container\Container;
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Collection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +30,19 @@ $context = new RequestContext();
 $context->fromRequest($request);
 $matcher = new UrlMatcher($collection, $context);
 
+/**
+ * 加载数据库.
+ */
+$db_config = require __DIR__.'/../config/database.php';
+$capsule = new Capsule();
+$capsule->addConnection($db_config['mysql']);
+$capsule->setEventDispatcher(new Dispatcher(new Container()));
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
+/*
+ * 开始处理请求
+ */
 try {
     $match = $matcher->matchRequest($request);
 } catch (ResourceNotFoundException $exception) {
@@ -48,6 +65,9 @@ if (is_string($response)) {
     $response->send();
 } elseif (is_array($response)) {
     $response = new JsonResponse($response);
+    $response->send();
+} elseif ($response instanceof Collection) {
+    $response = new JsonResponse($response->toArray());
     $response->send();
 } elseif ($response instanceof Response) {
     $response->send();
