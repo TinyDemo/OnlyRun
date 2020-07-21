@@ -15,6 +15,12 @@ use Symfony\Component\Routing\RequestContext;
 
 require __DIR__.'/../vendor/autoload.php';
 
+if (false === getenv('ENV')) {
+    putenv('ENV=DEV');
+}
+define('ENV', getenv('ENV'));
+define('APP_BASE_PATH', dirname(__DIR__));
+
 /**
  * 加载路由配置.
  */
