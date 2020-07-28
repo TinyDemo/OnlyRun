@@ -1,15 +1,20 @@
 <?php
 
-namespace App\Controller;
+namespace App\Http\Controller;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends Controller
 {
     public function index(Request $request)
     {
-        return ['method' => $request->getMethod()];
+
+      $result =  Validator::make(['username'=>'a'],['username'=>'required'])->validate();
+
+
+        return ['method' => $request->getMethod(),'result'=>$result];
     }
 
     public function db()

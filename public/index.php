@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Container\Container;
+use App\Foundation\Application;
+use App\Foundation\Validator;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Collection;
@@ -20,6 +21,8 @@ if (false === getenv('ENV')) {
 }
 define('ENV', getenv('ENV'));
 define('APP_BASE_PATH', dirname(__DIR__));
+
+$app =  Application::getInstance();
 
 /**
  * 加载路由配置.
@@ -42,9 +45,18 @@ $matcher = new UrlMatcher($collection, $context);
 $db_config = require __DIR__.'/../config/database.php';
 $capsule = new Capsule();
 $capsule->addConnection($db_config['mysql']);
-$capsule->setEventDispatcher(new Dispatcher(new Container()));
+$capsule->setEventDispatcher(new Dispatcher($app));
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
+
+/*
+ * 加载校验类
+ */
+
+$app->singleton('validator', function ($app){
+   return Validator::getInstance();
+});
+
 
 /*
  * 开始处理请求
