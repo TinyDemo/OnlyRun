@@ -7,17 +7,19 @@
         }
     ],
     "require": {
-        "symfony/routing": "^5.1",
-        "symfony/config": "^5.1",
-        "symfony/http-foundation": "^5.1",
+        "php": "^7.2",
         "ext-json": "*",
-        "monolog/monolog": "^2.1",
         "illuminate/database": "^7.20",
-        "illuminate/events": "^7.20",
-        "illuminate/log": "^7.20",
-        "illuminate/validation": "^7.22"
+        "illuminate/validation": "^7.22",
+        "monolog/monolog": "^2.1",
+        "php-di/php-di": "^6.2",
+        "slim/psr7": "^1.1",
+        "slim/slim": "^4.5"
     },
     "require-dev": {
+        "jangregor/phpstan-prophecy": "^0.8.0",
+        "phpstan/extension-installer": "^1.0.4",
+        "phpstan/phpstan": "^0.12.37",
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpunit/phpunit": "^9.2"
     },
@@ -28,5 +30,12 @@
         "files": [
             "src/Foundation/helpers.php"
         ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public",
+        "test": "phpunit"
     }
 }

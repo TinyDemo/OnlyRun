@@ -22,6 +22,6 @@ class Validator
         $fileLoader = new FileLoader(new Filesystem(), $langPath);
         $translator = new Translator($fileLoader, 'en');
 
-        return new Factory($translator, Application::getInstance());
+        return new Factory($translator);
     }
 }
