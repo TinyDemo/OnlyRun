@@ -10,7 +10,7 @@ class DbAction extends Action
 {
     protected function action(): Response
     {
-        $users = Capsule::table('users')->where('votes', '>', 100)->get()->toArray();
+        $users = Capsule::table('user')->where('id', '>', 0)->get()->toArray();
 
         return $this->respondWithData($users);
     }

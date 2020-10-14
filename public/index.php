@@ -35,6 +35,10 @@ $middleware($app);
 $routes = require __DIR__.'/../app/routes.php';
 $routes($app);
 
+// Register database
+$database = require __DIR__.'/../app/database.php';
+$database($app);
+
 /** @var bool $displayErrorDetails */
 $displayErrorDetails = $container->get('settings')['displayErrorDetails'];
 
